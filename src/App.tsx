@@ -1,4 +1,4 @@
-import { useState,useEffect , useCallback, MouseEvent , KeyboardEvent, useMemo} from "react";
+import { useState,useEffect , useCallback, MouseEvent , KeyboardEvent, useMemo, useRef} from "react";
 
 interface User {
   id: number,
@@ -18,6 +18,13 @@ const App = () => {
   const [count, setCount ] = useState<number>(0);
   const [users, setUsers ] = useState<User[] | null>(null);
 
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  // if(!inputRef.current) 
+  console.log(inputRef?.current);
+  console.log(inputRef?.current?.value);
+
+
   useEffect(() => {
     console.log("mounting");
     console.log('Users:', users);
@@ -25,7 +32,7 @@ const App = () => {
     return() => console.log("unmounting");
   },[users])
   
-  const addTwo = useCallback((e: MouseEvent<HTMLButtonElement>| KeyboardEvent<HTMLButtonElement>): void=> setCount(prev => prev + 1),[])
+  const addTwo = useCallback((e: MouseEvent<HTMLButtonElement>| KeyboardEvent<HTMLButtonElement>): void=> setCount(prev => prev + 2),[])
 
   const result = useMemo<number>(() => fib(myNum),[myNum])
 
@@ -36,9 +43,10 @@ const App = () => {
   return(
   <>
     <h1>{count}</h1>
-      <button onClick={addTwo}>+</button>
-    <button onClick={subTwo}>-</button>
+      <button onClick={addTwo}>+2</button>
+    <button onClick={subTwo}>-1</button>
     <h2>{result}</h2>
+    <input type="text" ref={inputRef} />
   </>
 
   )
